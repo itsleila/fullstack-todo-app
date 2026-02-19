@@ -3,8 +3,6 @@
 Aplicação full stack para gerenciamento de tarefas (ToDo List), desenvolvida com **React** no frontend e **Spring Boot** no backend.  
 O projeto implementa um CRUD completo com interface web, com testes automatizados avançados e técnicas robustas de validação, simulação de falhas e fuzz testing.
 
----
-
 ## Tecnologias Utilizadas
 
 ### Frontend
@@ -20,7 +18,6 @@ O projeto implementa um CRUD completo com interface web, com testes automatizado
 - Spring Boot
 - Spring Web
 - Spring Data JPA
-- Bean Validation
 - Banco H2
 
 ### Testes
@@ -30,8 +27,6 @@ O projeto implementa um CRUD completo com interface web, com testes automatizado
 - Selenium WebDriver
 - WebDriverManager
 
----
-
 ## Funcionalidades
 
 - Cadastro de tarefas
@@ -40,10 +35,8 @@ O projeto implementa um CRUD completo com interface web, com testes automatizado
 - Exclusão de tarefas
 - Alteração de status (A Fazer / Concluído)
 - Feedback visual com mensagens de sucesso e erro
-- Tratamento de falhas de rede e timeouts
 - Interface responsiva e intuitiva
 
----
 
 ## Como Executar o Projeto
 
@@ -52,10 +45,10 @@ O projeto implementa um CRUD completo com interface web, com testes automatizado
 ```bash
 cd backend/todo-api
 mvn spring-boot:run
-
-API disponível em:
-http://localhost:8080
 ```
+
+_API disponível em:_
+`http://localhost:8080`
 
 ### Frontend
 
@@ -63,12 +56,10 @@ http://localhost:8080
 cd frontend/todo-web
 npm install
 npm run dev
-
-Aplicação web disponível em:
-http://localhost:5173
 ```
 
----
+_Aplicação web disponível em:_
+`http://localhost:5173`
 
 ## Como Executar Testes
 
