@@ -1,6 +1,7 @@
 package br.com.infnet.todo_api.service;
 
 import br.com.infnet.todo_api.entity.Todo;
+import br.com.infnet.todo_api.exception.TodoNotFoundException;
 import br.com.infnet.todo_api.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,25 +21,29 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
-    public Todo findById(Long id) {
-        return todoRepository.findById(id).orElseThrow(() -> new RuntimeException("Tarefa não encontrado"));
+    public Todo buscarPorId(Long id) {
+        return todoRepository.findById(id)
+                .orElseThrow(() -> new TodoNotFoundException(id));
     }
 
-    public Todo addTodo(Todo todo) {
+    public Todo criar(Todo todo) {
         return todoRepository.save(todo);
     }
 
-    public Todo updateTodo(Long id, Todo novoTodo) {
-        Todo existente = findById(id);
+    public Todo atualizar(Long id, Todo novoTodo) {
+        Todo existente = buscarPorId(id);
 
-        existente.setTitle(novoTodo.getTitle());
-        existente.setCompleted(novoTodo.getCompleted());
-
+        atualizarDados(existente, novoTodo);
         return todoRepository.save(existente);
     }
 
-    public void deleteTodo(Long id) {
-        findById(id);
-        todoRepository.deleteById(id);
+    public void deletar(Long id) {
+        Todo existente = buscarPorId(id);
+        todoRepository.delete(existente);
+    }
+
+    private void atualizarDados(Todo existente, Todo novoTodo) {
+        existente.setTitle(novoTodo.getTitle());
+        existente.setCompleted(novoTodo.getCompleted());
     }
 }

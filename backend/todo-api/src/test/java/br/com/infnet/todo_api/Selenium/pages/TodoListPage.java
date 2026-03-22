@@ -10,7 +10,7 @@ public class TodoListPage extends BaseSeleniumPage {
   private By botaoAdicionar = By.id("newTodo-button");
   private By alertaSucesso = By.className("success-alert");
   private By alertaErro = By.className("error-alert");
-  private By obterTarefa = By.xpath("(//li[contains(@class,'tarefa-item')])[last()]");
+  private By obterTarefa = By.xpath("(//div[contains(@class,'tarefa-item')])[last()]");
   private By buttonStatus = By.xpath("(//button[contains(@id,'status-button')])[last()]");
   private By statusText = By.xpath("(//span[contains(@id,'status-text')])[last()]");
   private By buttonDelete = By.xpath("//button[contains(@id, 'delete-button-')]");

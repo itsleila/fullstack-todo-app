@@ -38,7 +38,7 @@ public class TodoServiceTest {
     todo.setTitle("Escultar TLOASG");
     when(todoRepository.save(any(Todo.class))).thenReturn(todo);
 
-    Todo addTodo = todoService.addTodo(todo);
+    Todo addTodo = todoService.criar(todo);
 
     assertNotNull(addTodo);
     assertEquals("Escultar TLOASG", addTodo.getTitle());
@@ -50,8 +50,8 @@ public class TodoServiceTest {
   public void testDeleteTodo() {
     Long todoId = 1L;
     when(todoRepository.findById(todoId)).thenReturn(java.util.Optional.of(todo));
-    todoService.deleteTodo(todoId);
-    verify(todoRepository, times(1)).deleteById(todoId);
+    todoService.deletar(todoId);
+    verify(todoRepository, times(1)).delete(todo);
   }
 
   @Test
@@ -60,7 +60,7 @@ public class TodoServiceTest {
     Long todoId = 1L;
     when(todoRepository.findById(todoId)).thenReturn(java.util.Optional.empty());
 
-    assertThrows(RuntimeException.class, () -> {todoService.deleteTodo(todoId);});
+    assertThrows(RuntimeException.class, () -> {todoService.deletar(todoId);});
     verify(todoRepository, times(0)).deleteById(anyLong());
   }
 
@@ -77,7 +77,7 @@ public class TodoServiceTest {
     when(todoRepository.findById(todoId)).thenReturn(java.util.Optional.of(todo));
     when(todoRepository.save(any(Todo.class))).thenReturn(novoTodo);
 
-    Todo atualizado = todoService.updateTodo(todoId, novoTodo);
+    Todo atualizado = todoService.atualizar(todoId, novoTodo);
 
     assertNotNull(atualizado);
     assertEquals("Escultar Slippery When Wet", atualizado.getTitle());
@@ -91,7 +91,7 @@ public class TodoServiceTest {
     novoTodo.setTitle("Escultar Slippery When Wet");
 
     when(todoRepository.findById(todoId)).thenReturn(java.util.Optional.empty());
-    assertThrows(RuntimeException.class, () -> {todoService.updateTodo(todoId, novoTodo);});
+    assertThrows(RuntimeException.class, () -> {todoService.atualizar(todoId, novoTodo);});
 
       verify(todoRepository, never()).save(any());
   }
@@ -121,7 +121,7 @@ public class TodoServiceTest {
     todo.setId(todoId);
     todo.setTitle("Fazer Café");
     when(todoRepository.findById(todoId)).thenReturn(java.util.Optional.of(todo));
-    Todo resultado = todoService.findById(todoId);
+    Todo resultado = todoService.buscarPorId(todoId);
 
     assertNotNull(resultado);
     assertEquals("Fazer Café", resultado.getTitle());
@@ -133,7 +133,7 @@ public class TodoServiceTest {
   @DisplayName("Deve lançar exeção ao tentar encontrar uma tarefa por ID inexistente")
   public void testBuscarPorIdNaoEncontrado() {
     when(todoRepository.findById(1L)).thenReturn(java.util.Optional.empty());
-    assertThrows(RuntimeException.class, () -> {todoService.findById(1L);});
+    assertThrows(RuntimeException.class, () -> {todoService.buscarPorId(1L);});
 
     verify(todoRepository, times(1)).findById(1L);
   }

@@ -55,7 +55,7 @@ class TodoControllerTest {
     todo.setId(1L);
     todo.setTitle("Ler A Metamorfose");
 
-    when(todoService.addTodo(any(Todo.class))).thenReturn(todo);
+    when(todoService.criar(any(Todo.class))).thenReturn(todo);
     mockMvc.perform(post("/api/todos")
       .contentType(MediaType.APPLICATION_JSON)
       .content("""
@@ -75,7 +75,7 @@ class TodoControllerTest {
     todo.setTitle("Ler A Metamorfose- Atualizado");
     todo.setCompleted(true);
 
-    when(todoService.updateTodo(anyLong(), any(Todo.class))).thenReturn(todo);
+    when(todoService.atualizar(anyLong(), any(Todo.class))).thenReturn(todo);
     mockMvc.perform(put("/api/todos/1")
       .contentType(MediaType.APPLICATION_JSON)
       .content("""
@@ -92,10 +92,10 @@ class TodoControllerTest {
   @DisplayName("Deve deletar uma tarefa existente com sucesso")
   public void testDeletarTodo() throws Exception {
       Long todoId = 1L;
-      doNothing().when(todoService).deleteTodo(todoId);
-      mockMvc.perform(delete("/api/todos/1"))
-        .andExpect(status().isOk());
-      verify(todoService, times(1)).deleteTodo(todoId);
+      doNothing().when(todoService).deletar(todoId);
+      mockMvc.perform(delete("/api/todos/{id}", todoId))
+        .andExpect(status().isNoContent());
+      verify(todoService, times(1)).deletar(todoId);
   }
 
   @Test

@@ -22,32 +22,35 @@ public class TodoController {
     }
 
     @GetMapping
-    public List<Todo> listar() {return service.listarTodos();}
+    public ResponseEntity<List<Todo>> listar() {
+        return ResponseEntity.ok(service.listarTodos());
+    }
 
     @PostMapping
     public ResponseEntity<Todo> criar(@Valid @RequestBody Todo todo) {
-        Todo criado = service.addTodo(todo);
+        Todo criado = service.criar(todo);
         return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
 
     @PutMapping("/{id}")
-    public Todo atualizar(@PathVariable Long id, @RequestBody Todo todo) {
-        return service.updateTodo(id, todo);
+    public ResponseEntity<Todo> atualizar(@PathVariable Long id, @RequestBody Todo todo) {
+        Todo atualizado = service.atualizar(id, todo);
+        return ResponseEntity.ok(atualizado);
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
-        service.deleteTodo(id);
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/teste-timeout")
-    public ResponseEntity<List<Todo>> testeTimeout() {
-        throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, "Tempo limite excedido");
+    public ResponseEntity<Void> testeTimeout() {
+        throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT,"Tempo limite excedido");
     }
 
     @GetMapping("/teste-error")
-    public ResponseEntity<Void> testeError() { throw new ResponseStatusException(
-       HttpStatus.INTERNAL_SERVER_ERROR,"Erro simulado para teste");
+    public ResponseEntity<Void> testeError() {
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro simulado para teste");
     }
 }
-
