@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('backend/todo-api/pom.xml') }}
 
       - name: Build and test
-        run: mvn clean package
+        run: mvn clean package -Dgroups=!e2e
         working-directory: backend/todo-api
   frontend:
     runs-on: ubuntu-latest

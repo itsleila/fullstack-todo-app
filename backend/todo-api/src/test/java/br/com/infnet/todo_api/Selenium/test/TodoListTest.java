@@ -2,11 +2,9 @@ package br.com.infnet.todo_api.Selenium.test;
 
 import br.com.infnet.todo_api.Selenium.core.BaseSeleniumTest;
 import br.com.infnet.todo_api.Selenium.pages.TodoListPage;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
+@Tag("e2e")
 public class TodoListTest extends BaseSeleniumTest {
   private TodoListPage todoListPage;
 
