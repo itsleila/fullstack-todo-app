@@ -3,6 +3,7 @@ package br.com.infnet.todo_api.Selenium.pages;
 import br.com.infnet.todo_api.Selenium.core.BaseSeleniumPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class TodoListPage extends BaseSeleniumPage {
   private final By tituloPagina = By.tagName("h2");
