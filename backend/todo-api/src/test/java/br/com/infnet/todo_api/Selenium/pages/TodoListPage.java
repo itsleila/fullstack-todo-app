@@ -13,7 +13,7 @@ public class TodoListPage extends BaseSeleniumPage {
   private By obterTarefa = By.xpath("(//div[contains(@class,'tarefa-item')])[last()]");
   private By buttonStatus = By.xpath("(//button[contains(@id,'status-button')])[last()]");
   private By statusText = By.xpath("(//span[contains(@id,'status-text')])[last()]");
-  private By buttonDelete = By.xpath("//button[contains(@id, 'delete-button-')]");
+  private By buttonDelete = By.xpath("(//button[contains(@id, 'delete-button-')])[last()]");
   private By buttonEdit = By.xpath("(//button[contains(@id, 'edit-button-')])[last()]");
   private By inputEdit = By.id("edit-input");
   private By buttonSave = By.id("save-button");
@@ -30,6 +30,10 @@ public class TodoListPage extends BaseSeleniumPage {
   public void adicionarTarefa(String tarefa) {
     preencherCampo(inputNovaTarefa, tarefa);
     clicar(botaoAdicionar);
+
+    wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(
+        By.cssSelector(".tarefa-item"), 0
+    ));
   }
 
   public String obterMensagemSucesso() {
@@ -51,6 +55,9 @@ public class TodoListPage extends BaseSeleniumPage {
   public void alterarStatusTarefa() {
     esperarElementoClicavel(buttonStatus);
     clicar(buttonStatus);
+    wait.until(ExpectedConditions.textToBePresentInElementLocated(
+      statusText, "Feito"
+  ));
   }
 
 
@@ -60,9 +67,10 @@ public class TodoListPage extends BaseSeleniumPage {
   }
 
 
-  public void deletarTarefa() {
+  public void deletarTarefa() {    
     esperarElementoClicavel(buttonDelete);
     clicar(buttonDelete);
+    wait.until(ExpectedConditions.invisibilityOfElementLocated(obterTarefa));
   }
 
   public void editarTarefa(String novaTarefa) {
