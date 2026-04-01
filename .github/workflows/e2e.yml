@@ -1,0 +1,63 @@
+name: Selenium E2E Tests
+
+on:
+  workflow_run:
+    workflows: ['CI TODO-App FullStack']
+    types:
+      - completed
+
+jobs:
+  selenium-e2e-tests:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Start Backend
+        run: |
+          echo 'iniciando backend'
+          cd backend/todo-api
+          mvn spring-boot:run &
+          echo 'backend iniciado'
+
+      - name: Start Frontend
+        run: |
+          echo 'iniciando frontend'
+          npm install
+          npm start &
+          echo 'frontend iniciado'
+        working-directory: frontend/todo-web
+
+      - name: Wait for services
+        run: |
+          until curl -s http://localhost:8080/actuator/health | grep '"status":"UP"' > /dev/null; do
+            echo 'Aguardando backend...'
+            sleep 5
+          done
+
+          until curl -s http://localhost:3000 > /dev/null; do
+            echo 'Aguardando frontend...'
+            sleep 5
+          done
+
+          echo 'serviços prontos'
+
+      - name: Run Selenium Tests
+        run: |
+          echo 'iniciando testes e2e'
+          mvn test -Dgroups=e2e
+          echo 'testes e2e finalizados'
+        working-directory: backend/todo-api
