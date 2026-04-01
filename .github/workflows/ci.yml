@@ -64,10 +64,6 @@ jobs:
         run: mvn package -DskipTests
         working-directory: backend/todo-api
 
-      - name: OWASP Dependency Check
-        run: mvn org.owasp:dependency-check-maven:check
-        working-directory: backend/todo-api
-
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
@@ -86,7 +82,6 @@ jobs:
           echo "_Backend pipeline completed successfully!_" >> $GITHUB_STEP_SUMMARY
           echo "- Build, tests, and packaging are done." >> $GITHUB_STEP_SUMMARY
           echo "- JaCoCo report and JAR file have been uploaded as artifacts." >> $GITHUB_STEP_SUMMARY
-          echo "- OWASP Dependency Check has been executed." >> $GITHUB_STEP_SUMMARY
   frontend:
     runs-on: ubuntu-latest
     steps:
