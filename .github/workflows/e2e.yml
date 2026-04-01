@@ -38,7 +38,8 @@ jobs:
           echo "iniciando frontend"
           npm install
           npm run build
-          npx serve -s build -l 3000 > frontend.log 2>&1 &
+          npm install -g serve
+          serve -s dist -l 3000 > frontend.log 2>&1 &
           echo "frontend iniciado"
         working-directory: frontend/todo-web
 
