@@ -33,12 +33,13 @@ jobs:
           mvn spring-boot:run &
           echo 'backend iniciado'
 
-      - name: Start Frontend
+      - name: Start frontend
         run: |
-          echo 'iniciando frontend'
+          echo "iniciando frontend"
           npm install
-          npm start &
-          echo 'frontend iniciado'
+          npm run build
+          npx serve -s build -l 3000 > frontend.log 2>&1 &
+          echo "frontend iniciado"
         working-directory: frontend/todo-web
 
       - name: Wait for services
